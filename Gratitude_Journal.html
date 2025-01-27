@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gratitude Journal</title>
+	<style>
+		/* Basic Styling */
+		body {
+			font-family: Arial, sans-serif;
+			text-align: center;
+			margin: 0;
+			padding: 0;
+			background-color: #f4f4f9;
+		}
+		header {
+			background-color: #f8f9fa;
+			padding: 1rem;
+			font-size: 1.5rem;
+			font-weight: bold;
+		}
+		#prompt {
+			margin: 1rem;
+			font-style: italic;
+			font-size: 1.2rem;
+		}
+		textarea {
+			width: 80%;
+			height: 150px;
+			margin: 1rem auto;
+			display: block;
+			font-size: 1rem;
+			padding: 1rem;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			background-color: #ffffff;
+		}
+		button {
+			padding: 0.5rem 1rem;
+			font-size: 1rem;
+			margin: 0.5rem;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			background-color: #007bff;
+			color: white;
+		}
+		button:hover {
+			background-color: #0056b3;
+		}
+		footer {
+			margin-top: 2rem;
+			font-size: 0.9rem;
+			color: #555;
+		}
+		#entries {
+			margin-top: 1rem;
+			text-align: left;
+			width: 80%;
+			margin: 0 auto;
+		}
+		.entry {
+			background-color: #fff;
+			padding: 1rem;
+			margin-bottom: 1rem;
+			border-radius: 5px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>Gratitude Journal</h1>
+	</header>
+
+	<main>
+		<p id="prompt">What are you grateful for today?</p>
+		<textarea id="journalEntry" placeholder="Write your thoughts here..."></textarea>
+		<button onclick="saveEntry()">Save Entry</button>
+		<div id="entries"></div> <!-- This will show the saved entries -->
+	</main>
+
+	<footer>
+		<p>&copy; 2025 Gratitude Journal</p>
+	</footer>
+
+	<script>
+		// Function to save the entry
+		function saveEntry() {
+			const entry = document.getElementById('journalEntry').value;
+			if (entry) {
+				let entries = JSON.parse(localStorage.getItem('entries')) || [];
+				entries.push(entry);
+				localStorage.setItem('entries', JSON.stringify(entries));
+				document.getElementById('journalEntry').value = ''; // Clear textarea
+				displayEntries(); // Update the displayed entries
+			} else {
+				alert('Please write something before saving!');
+			}
+		}
+
+
+		//Function to display saved entries
+		function displayEntries() {
+			const entries = JSON.parse(localStorage.getItem('entries')) || [];
+			const entriesDiv = document.getElementById('entries');
+			entriesDiv.innerHTML = ''; // Clear previous entries
+
+			entries.forEach(entry => {
+				const entryDiv = document.createElement('div');
+				entryDiv.classList.add('entry');
+				entryDiv.innerText = entry;
+				entriesDiv.appendChild(entryDiv);
+			});	
+		}
+		
+		// Display entries when the page loads
+		window.onload = displayEntries;
+	</script>
+</body>
+</html>
